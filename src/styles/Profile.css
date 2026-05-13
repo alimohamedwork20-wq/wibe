@@ -1,0 +1,19 @@
+.collapseB {
+  background-color: transparent;
+  transition: 0.3s;
+  border: 1px solid rgb(87, 87, 87);
+  margin-bottom: 20px;
+  width: 100%;
+}
+.card-body {
+  margin-bottom: 20px;
+  background-color: transparent;
+  border: none;
+}
+.collapseB:hover {
+  background-color: rgba(0, 0, 0, 0.603);
+  color: white;
+  border: 1px solid rgb(87, 87, 87);
+  transform: scale(1);
+  transform: translateY(-3px);
+}

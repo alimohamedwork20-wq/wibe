@@ -1,0 +1,150 @@
+.forgot-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #0f0f0f;
+  color: #ffffff;
+  font-family: "Inter", sans-serif;
+}
+
+/* الجانب المرئي */
+.forgot-visuall {
+  flex: 1;
+  position: relative;
+  background-image: url("https://images.unsplash.com/photo-1490481651871-ab68de25d43d?"); /* صورة هادية تليق بالريكفري */
+  background-size: cover;
+  background-position: center;
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .forgot-visuall {
+    display: flex;
+  }
+}
+
+.forgot-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.6),
+    rgba(0, 0, 0, 0.9)
+  );
+}
+
+.forgot-visual-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 2;
+}
+
+.forgot-logo {
+  font-family: "Playfair Display", serif;
+  font-size: 6rem;
+  font-style: italic;
+  margin: 0;
+  letter-spacing: -4px;
+}
+
+.forgot-tagline {
+  font-size: 0.7rem;
+  letter-spacing: 6px;
+  color: #888;
+  margin-top: 10px;
+}
+
+/* جانب الفورم */
+.forgot-form-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.forgot-wrapper {
+  width: 100%;
+  max-width: 400px;
+}
+
+.forgot-header h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 2.2rem;
+  margin-bottom: 15px;
+}
+
+.forgot-header p {
+  color: #555;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+/* الـ Input */
+.forgot-input-group {
+  margin-bottom: 30px;
+}
+
+.forgot-input-group label {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #444;
+  margin-bottom: 12px;
+}
+
+.forgot-input-group input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #222;
+  padding: 12px 0;
+  color: white;
+  outline: none;
+  font-size: 14px;
+  transition: 0.4s;
+}
+
+.forgot-input-group input:focus {
+  border-bottom-color: #ffffff;
+}
+
+/* الزرار */
+.forgot-btn {
+  width: 100%;
+  padding: 18px;
+  background: white;
+  color: black;
+  border: 1px solid white;
+  font-weight: bold;
+  letter-spacing: 3px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: 0.5s ease;
+}
+
+.forgot-btn:hover {
+  background: transparent;
+  color: white;
+  box-shadow: 0 10px 20px rgba(255, 255, 255, 0.05);
+}
+
+.forgot-footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: #444;
+}
+
+.forgot-footer a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  margin-left: 8px;
+  border-bottom: 1px solid #333;
+}

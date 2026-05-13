@@ -1,0 +1,177 @@
+/* الأساسيات */
+.login-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #0f0f0f;
+  color: #ffffff;
+  font-family: "Inter", sans-serif;
+}
+
+/* الجانب الشمال (الصورة) */
+.login-visual {
+  flex: 1;
+  position: relative;
+  background-image: url("https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1000");
+  background-size: cover;
+  background-position: center;
+  display: none; /* مخفي في الموبايل */
+}
+
+@media (min-width: 1024px) {
+  .login-visual {
+    display: flex;
+  }
+}
+
+.visual-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+}
+
+.visual-content {
+  position: absolute;
+  bottom: 80px;
+  left: 50px;
+  z-index: 2;
+}
+
+.visual-logo {
+  font-family: "Playfair Display", serif;
+  font-size: 5rem;
+  font-style: italic;
+  margin: 0;
+  letter-spacing: -3px;
+}
+
+.visual-tagline {
+  font-size: 0.8rem;
+  letter-spacing: 5px;
+  color: #cccccc;
+  margin-top: 10px;
+}
+
+/* الجانب اليمين (الفورم) */
+.login-form-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.form-wrapper {
+  width: 100%;
+  max-width: 400px;
+}
+
+.form-header h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.form-header p {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 40px;
+}
+
+/* ستايل المدخلات */
+.input-group {
+  margin-bottom: 30px;
+}
+
+.input-group label {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #555;
+  margin-bottom: 8px;
+  transition: 0.3s;
+}
+
+.input-group input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #333;
+  padding: 12px 0;
+  color: white;
+  outline: none;
+  font-size: 14px;
+  transition: 0.5s;
+}
+
+.input-group input:focus {
+  border-bottom-color: #ffffff;
+}
+
+.input-group input:focus + label {
+  color: white;
+}
+
+.label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.forgot-link {
+  font-size: 10px;
+  text-decoration: none;
+  color: #444;
+}
+
+/* الزرار الاحترافي */
+.login-btn {
+  width: 100%;
+  padding: 18px;
+  background: white;
+  color: black;
+  border: none;
+  font-weight: bold;
+  letter-spacing: 3px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.login-btn:hover {
+  background: #0f0f0f;
+  color: white;
+  box-shadow: 0 0 0 1px white;
+}
+
+.form-footer {
+  margin-top: 50px;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #444;
+}
+
+.form-footer a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-bottom: 1px solid #333;
+  margin-left: 10px;
+  padding-bottom: 2px;
+}
+.forgot-link {
+  font-size: 10px;
+  text-decoration: none;
+  color: #444; /* لون رمادي هادي */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: 0.3s;
+}
+
+.forgot-link:hover {
+  color: #ffffff; /* ينور أبيض لما تقف عليه */
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
