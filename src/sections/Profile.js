@@ -235,7 +235,7 @@ const ProfilePage = () => {
   return (
     <ProfileWrapper>
       <BackButton
-        onClick={() => navigate("/home")} // طريقة أفضل للتنقل في React
+        onClick={() => (window.location.pathname = "/home")} // طريقة أفضل للتنقل في React
         whileHover={{ x: -5 }}
         whileTap={{ scale: 0.95 }}
       >
