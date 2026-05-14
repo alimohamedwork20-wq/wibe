@@ -155,7 +155,7 @@ const ProfilePage = () => {
       setLoading(true);
       const API_URL = process.env.REACT_APP_API_URL;
       const res = await axios.put(
-        `${API_URL}/api/Auth/updatePass`,
+        `${API_URL}/Auth/updatePass`,
         { Email: Cookies.get("email"), Password: RPassword }, // بنبعت القيمة الجديدة من الـ State
         {
           headers: {
@@ -195,7 +195,7 @@ const ProfilePage = () => {
           if (await Promise.all([updateName(), updatePass()])) {
             toast.success("Modified Successfully!");
           } else {
-            toast.error("Failed to update username. Please try again.");
+            toast.error("Failed to update. Please try again.");
           }
         }
       } else if (isNameChanged) {
@@ -213,7 +213,7 @@ const ProfilePage = () => {
             if (await updatePass()) {
               toast.success("Password has changed!");
             } else {
-              toast.error("Failed to update username. Please try again.");
+              toast.error("Failed to update Password. Please try again.");
             }
             setHandelPassCon(false);
           } else {
