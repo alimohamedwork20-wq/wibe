@@ -42,7 +42,7 @@ const RegisterPage = () => {
         );
       } else {
         console.error("Network Error:", error.message);
-        toast.error("Server is down, please try again later.");
+        toast.error("Email is already registered.");
       }
     } finally {
       setLoading(false);
@@ -117,7 +117,7 @@ const RegisterPage = () => {
                   textAlign: "left",
                   fontSize: "10px",
                   color: "#a80b0b",
-                  transform: "translateY(-170%)",
+                  transform: "translateY(-140%)",
                 }}
               >
                 - Enter the email.
@@ -150,7 +150,7 @@ const RegisterPage = () => {
                   textAlign: "left",
                   fontSize: "10px",
                   color: "#a80b0b",
-                  transform: "translateY(-170%)",
+                  transform: "translateY(-140%)",
                 }}
               >
                 - Password must be at least 8 characters.
@@ -184,7 +184,7 @@ const RegisterPage = () => {
                 style={{
                   fontSize: "10px",
                   color: "#a80b0b",
-                  transform: "translateY(90%)",
+                  transform: "translateY(70%)",
                 }}
               >
                 - You must agree to the terms and conditions.

@@ -16,7 +16,7 @@ const NotFound = () => {
         Page Not Found
       </p>
       <button
-        onClick={() => (window.location.pathname = "/")}
+        onClick={() => (window.location.pathname = "/home")}
         style={{
           marginTop: "20px",
           padding: "10px 30px",

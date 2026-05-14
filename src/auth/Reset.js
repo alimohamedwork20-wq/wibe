@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"; // ضيفنا useEffect
 import "./Reset.css";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 const Reset = () => {
   const [Loading, setLoading] = useState(false);
@@ -82,7 +82,15 @@ const Reset = () => {
           <div className="forgot-wrapper">
             <div className="forgot-header">
               <h3>Enter a code</h3>
-              <p>A code has been sent to {Cookies.get("email")}</p>
+              <p>
+                A code has been sent to{" "}
+                <Link
+                  to={"/forgot-password"}
+                  style={{ color: "#d8d8d8", textDecoration: "underline" }}
+                >
+                  {Cookies.get("email")}
+                </Link>
+              </p>
             </div>
 
             <form className="forgot-auth-form">
