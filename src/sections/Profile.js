@@ -136,10 +136,12 @@ const ProfilePage = () => {
 
       if (res.status === 200) {
         Cookies.set("userName", newName);
+        return true;
         setTimeout((e) => (window.location.pathname = "./home"), 2000);
       }
     } catch (error) {
       console.error("Update failed:", error.response?.data || error.message);
+      return false;
       toast.error(
         "Update failed, please ensure you are connected to the server.",
       );
@@ -164,9 +166,11 @@ const ProfilePage = () => {
 
       if (res.status === 200) {
         setTimeout((e) => (window.location.pathname = "./home"), 2000);
+        return true;
       }
     } catch (error) {
       console.error("Update failed:", error.response?.data || error.message);
+      return false;
       toast.error(
         "Update failed, please ensure you are connected to the server.",
       );
@@ -188,20 +192,29 @@ const ProfilePage = () => {
           setHandelPass(true);
           return;
         } else {
-          await Promise.all([updateName(), updatePass()]);
-          toast.success("Modified Successfully!");
+          if (await Promise.all([updateName(), updatePass()])) {
+            toast.success("Modified Successfully!");
+          } else {
+            toast.error("Failed to update username. Please try again.");
+          }
         }
       } else if (isNameChanged) {
-        await updateName();
-        toast.success("Username has changed!");
+        if (await updateName()) {
+          toast.success("Username has changed!");
+        } else {
+          toast.error("Failed to update username. Please try again.");
+        }
       } else if (isPassChanged) {
         if (Password !== Cookies.get("pass")) {
           setHandelPass(true);
           return;
         } else {
           if (RPassword == CPassword) {
-            await updatePass();
-            toast.success("The password has been changed!");
+            if (await updatePass()) {
+              toast.success("Password has changed!");
+            } else {
+              toast.error("Failed to update username. Please try again.");
+            }
             setHandelPassCon(false);
           } else {
             setHandelPassCon(true);

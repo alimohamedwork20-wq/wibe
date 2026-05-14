@@ -2,221 +2,253 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useLocomotiveScroll } from "react-locomotive-scroll";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Cookies from "js-cookie";
 import { ImageProfile } from "../components/ImageProfile";
+
+/* ================= NAV CONTAINER (DESKTOP ANIMATION RETURNED) ================= */
+
 const NavContainer = styled(motion.div)`
   width: 100vw;
-  z-index: 6;
   position: absolute;
-  top: ${(props) => (props.click ? "0" : `-${props.theme.navHeight}`)};
+  top: 0;
+  left: 0;
+  z-index: 9999;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 0.3s ease;
-
-  @media (max-width: 40em) {
-    top: ${(props) => (props.click ? "0" : `calc(-50vh - 4rem)`)};
-  }
 `;
+
+/* ================= MENU ================= */
 
 const MenuItems = styled(motion.ul)`
   position: relative;
+
   height: ${(props) => props.theme.navHeight};
+
   background-color: ${(props) => props.theme.body};
+
   color: ${(props) => props.theme.text};
+
   list-style: none;
+
   display: flex;
+
   justify-content: space-around;
+
   align-items: center;
+
   width: 100%;
+
   padding: 0 10rem;
 
   @media (max-width: 40em) {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
     flex-direction: column;
-    padding: 2rem 0;
-    height: 50vh;
+
+    padding: 4rem 0 2rem;
+
+    height: auto;
+
+    background-color: ${(props) => props.theme.body};
+
+    transform: ${(props) =>
+      props.mobileOpen ? "translateY(0)" : "translateY(-120%)"};
+
+    transition: 0.35s ease;
+
+    z-index: 9998;
   }
 `;
 
+/* ================= BURGER ================= */
+
+const Burger = styled.div`
+  display: none;
+  @media (max-width: 40em) {
+    display: flex;
+
+    position: fixed;
+
+    top: 15px;
+    right: 20px;
+
+    font-size: 28px;
+
+    cursor: pointer;
+
+    z-index: 10000;
+
+    color: ${(props) => props.theme.text};
+  }
+`;
+
+/* ================= DESKTOP MENU BUTTON ================= */
+
 const MenuBtn = styled.li`
-  background-color: ${(props) => `rgba(${props.theme.textRgba}, 0.7)`};
-  list-style-type: none;
-  color: ${(props) => props.theme.body};
-  width: 15rem;
-  height: 2.5rem;
-  clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
   position: absolute;
+
   top: 100%;
   left: 50%;
+
   transform: translateX(-50%);
+
+  width: 15rem;
+  height: 2.5rem;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: ${(props) => props.theme.fontmd};
-  font-weight: 600;
-  text-transform: uppercase;
+
+  background-color: ${(props) => `rgba(${props.theme.textRgba}, 0.7)`};
+
+  color: ${(props) => props.theme.body};
+
+  clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
+
   cursor: pointer;
 
   @media (max-width: 40em) {
-    width: 10rem;
-    height: 2rem;
+    display: none;
   }
 `;
+
+/* ================= ITEM ================= */
 
 const MenuItem = styled(motion.li)`
+  cursor: pointer;
+  transition: 0.2s;
+  margin: 10px;
+  &:hover {
+    color: white;
+    transform: scale(1.2);
+  }
+
   text-transform: uppercase;
   color: ${(props) => props.theme.text};
-  cursor: pointer;
-
-  @media (max-width: 40em) {
-    flex-direction: column;
-    padding: 0.5rem 0;
-  }
 `;
 
+/* ================= COMPONENT ================= */
+
 const NavBar = () => {
-  const [click, setClick] = useState(false);
+  const [desktopOpen, setDesktopOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   const { scroll } = useLocomotiveScroll();
   const navigate = useNavigate();
 
+  /* ================= SCROLL ================= */
+
   const handleScroll = (id) => {
-    let elem = document.querySelector(id);
-    setClick(!click);
-    scroll.scrollTo(elem, {
+    const elem = document.querySelector(id);
+
+    setMobileOpen(false);
+    setDesktopOpen(false);
+
+    scroll?.scrollTo(elem, {
       offset: "-100",
       duration: "2000",
-      easing: [0.25, 0.0, 0.35, 1.0],
     });
   };
 
+  /* ================= NAVIGATION ================= */
+
   const handleNavigation = (path) => {
-    setClick(false); // قفل المنيو لو مفتوحة
+    setMobileOpen(false);
+    setDesktopOpen(false);
 
-    // 1. تدمير السكرول تماماً قبل النقل
-    if (scroll) {
-      scroll.destroy();
-    }
+    if (scroll) scroll.destroy();
 
-    // 2. تنظيف GSAP
     ScrollTrigger.getAll().forEach((t) => t.kill());
     ScrollTrigger.refresh();
 
-    // 3. النقل بعد التأكد إن كله اتمسح
     setTimeout(() => {
       navigate(path);
     }, 100);
   };
+
   const userStatus = Cookies.get("token");
 
-  function logout() {
+  const logout = () => {
     Cookies.remove("token");
     window.location.href = "/login";
-  }
+  };
+
   return (
-    <NavContainer
-      click={+click}
-      initial={{ y: "-100%" }}
-      animate={{ y: 0 }}
-      transition={{ duration: 2, delay: 5 }}
-    >
-      <MenuItems
-        drag="y"
-        dragConstraints={{ top: 0, bottom: 70 }}
-        dragElastic={0.05}
-        dragSnapToOrigin
+    <>
+      {/* BURGER */}
+      <Burger onClick={() => setMobileOpen(!mobileOpen)}>☰</Burger>
+
+      {/* NAV CONTAINER + ANIMATION (DESKTOP FIX) */}
+      <NavContainer
+        initial={{ y: "-100%" }}
+        animate={{ y: desktopOpen ? 0 : "-100%" }}
+        transition={{ duration: 0.6, ease: "easeInOut" }}
       >
-        <MenuBtn onClick={() => setClick(!click)}>Menu</MenuBtn>
-
-        <MenuItem
-          onClick={() => handleScroll("#home")}
-          whileHover={{ scale: 1.1, y: -5 }}
-          whileTap={{ scale: 0.9, y: 0 }}
-        >
-          Home
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => handleScroll(".about")}
-          whileHover={{ scale: 1.1, y: -5 }}
-          whileTap={{ scale: 0.9, y: 0 }}
-        >
-          about
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => handleScroll("#shop")}
-          whileHover={{ scale: 1.1, y: -5 }}
-          whileTap={{ scale: 0.9, y: 0 }}
-        >
-          shop
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => handleScroll("#new-arrival")}
-          whileHover={{ scale: 1.1, y: -5 }}
-          whileTap={{ scale: 0.9, y: 0 }}
-        >
-          new arrival
-        </MenuItem>
-        {userStatus ? (
-          <MenuItem
-            onClick={(e) => logout()}
-            whileHover={{ scale: 1.1, y: -5 }}
-            whileTap={{ scale: 0.9, y: 0 }}
+        <MenuItems mobileOpen={mobileOpen}>
+          {/* MENU BTN (DESKTOP TOGGLE) */}
+          <MenuBtn
+            style={{ fontSize: "20px", paddingTop: "5px" }}
+            onClick={() => setDesktopOpen(!desktopOpen)}
           >
-            Logout
-          </MenuItem>
-        ) : (
-          <>
-            {" "}
-            <MenuItem
-              onClick={() => handleNavigation("/login")}
-              whileHover={{ scale: 1.1, y: -5 }}
-              whileTap={{ scale: 0.9, y: 0 }}
-            >
-              Login
-            </MenuItem>
-            <MenuItem
-              onClick={() => handleNavigation("/register")}
-              whileHover={{ scale: 1.1, y: -5 }}
-              whileTap={{ scale: 0.9, y: 0 }}
-            >
-              Register
-            </MenuItem>
-          </>
-        )}
-        {/* باقي عناصر الناف بار (Logo, Links) */}
+            Menu
+          </MenuBtn>
 
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "15px",
-          }}
-        >
-          <span
+          <MenuItem onClick={() => handleScroll("#home")}>Home</MenuItem>
+
+          <MenuItem onClick={() => handleScroll(".about")}>About</MenuItem>
+
+          <MenuItem onClick={() => handleScroll("#shop")}>Shop</MenuItem>
+
+          <MenuItem onClick={() => handleScroll("#new-arrival")}>
+            New Arrival
+          </MenuItem>
+
+          {userStatus ? (
+            <MenuItem onClick={logout}>Logout</MenuItem>
+          ) : (
+            <>
+              <MenuItem onClick={() => handleNavigation("/login")}>
+                Login
+              </MenuItem>
+
+              <MenuItem onClick={() => handleNavigation("/register")}>
+                Register
+              </MenuItem>
+            </>
+          )}
+
+          {/* PROFILE */}
+          <div
             style={{
-              color: "#fff",
-              fontSize: "0.8rem",
-              letterSpacing: "1px",
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
             }}
           >
-            HELLO, {Cookies.get("userName")?.toUpperCase()}
-          </span>
+            <span style={{ fontSize: "12px" }}>
+              HELLO, {Cookies.get("userName")?.toUpperCase()}
+            </span>
 
-          {/* هنا الـ Avatar بـ Size صغير للناف بار */}
-          <ImageProfile
-            size="40px"
-            fontSize="1.2rem"
-            onClick={() => (window.location.pathname = "/profile")}
-          >
-            {Cookies.get("userName")?.charAt(0).toUpperCase()}
-          </ImageProfile>
-        </div>
-      </MenuItems>
-    </NavContainer>
+            <ImageProfile
+              size="35px"
+              fontSize="1rem"
+              onClick={() => (window.location.pathname = "/profile")}
+            >
+              {Cookies.get("userName")?.charAt(0)?.toUpperCase()}
+            </ImageProfile>
+          </div>
+        </MenuItems>
+      </NavContainer>
+    </>
   );
 };
 
