@@ -6,12 +6,12 @@ import { useEffect, useRef, useState } from "react";
 import "locomotive-scroll/dist/locomotive-scroll.css";
 import ForgotPassword from "./auth/ForgotPassword";
 import Home from "./sections/Home";
-import { AnimatePresence } from "framer-motion";
 import About from "./sections/About";
 import Shop from "./sections/Shop";
 import ScrollTriggerProxy from "./components/ScrollTriggerProxy";
 import Banner from "./sections/Banner";
 import NewArrival from "./sections/NewArrival";
+import { AnimatePresence } from "framer-motion";
 import Footer from "./sections/Footer";
 import Loader from "./components/Loader";
 import LoginPage from "./auth/Login";
@@ -97,6 +97,7 @@ function App() {
                 <Route path="/reset-pass" element={<ResetPass />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
+
               <Toaster position="top-center" reverseOrder={true} />
             </main>
           </AnimatePresence>

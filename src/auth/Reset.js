@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react"; // ضيفنا useEffect
 import "./Reset.css";
 import axios from "axios";
 import Cookies from "js-cookie";
-
+import { useNavigate } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 const Reset = () => {
   const [Loading, setLoading] = useState(false);
   const [Code, setCode] = useState("");
   const [handelCode, setHandelCode] = useState("");
-
+  const navigate = useNavigate();
   // --- الـ Logic بتاع العداد التنازلي ---
   const [timer, setTimer] = useState(0);
   const [canResend, setCanResend] = useState(true);
@@ -36,7 +37,7 @@ const Reset = () => {
     } else {
       setHandelCode(false);
       setLoading(false);
-      window.location.pathname = "/reset-pass";
+      navigate("/reset-pass");
     }
   }
 
@@ -62,80 +63,87 @@ const Reset = () => {
   }
 
   return (
-    <div className="forgot-container">
-      <div className="forgot-visuall">
-        <div className="forgot-overlay"></div>
-        <div className="forgot-visual-content">
-          <h2 className="forgot-logo">Wibe.</h2>
-          <p className="forgot-tagline">RECOVER YOUR ACCESS</p>
-        </div>
-      </div>
-
-      <div className="forgot-form-section">
-        <div className="forgot-wrapper">
-          <div className="forgot-header">
-            <h3>Enter a code</h3>
-            <p>A code has been sent to {Cookies.get("email")}</p>
+    <motion.div
+      initial={{ opacity: 0, scale: 1.1 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 1.1 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="forgot-container">
+        <div className="forgot-visuall">
+          <div className="forgot-overlay"></div>
+          <div className="forgot-visual-content">
+            <h2 className="forgot-logo">Wibe.</h2>
+            <p className="forgot-tagline">RECOVER YOUR ACCESS</p>
           </div>
+        </div>
 
-          <form className="forgot-auth-form">
-            <div className="forgot-input-group">
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <label>Enter a your code</label>
-
-                {/* تعديل زرار الـ Resend */}
-                <p
-                  onClick={canResend ? Otp : null}
-                  style={{
-                    transform: "translateY(10%)",
-                    cursor: canResend ? "pointer" : "not-allowed",
-                    opacity: canResend ? 1 : 0.5, // بهتان للزرار وهو مقفول
-                  }}
-                  className="forgot-link"
-                >
-                  {canResend ? "Resend code?" : `Resend in ${timer}s`}
-                </p>
-              </div>
-
-              <input
-                onChange={(e) => setCode(e.target.value)}
-                type="text"
-                placeholder="• • •  • • •"
-                required
-              />
+        <div className="forgot-form-section">
+          <div className="forgot-wrapper">
+            <div className="forgot-header">
+              <h3>Enter a code</h3>
+              <p>A code has been sent to {Cookies.get("email")}</p>
             </div>
 
-            {handelCode && (
-              <p
-                style={{
-                  textAlign: "left",
-                  fontSize: "10px",
-                  color: "#a80b0b",
-                  transform: "translateY(-170%)",
-                }}
-              >
-                - The code you entered is incorrect..
-              </p>
-            )}
+            <form className="forgot-auth-form">
+              <div className="forgot-input-group">
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <label>Enter a your code</label>
 
-            <button
-              onClick={() => chick()}
-              type="button"
-              className="forgot-btn"
-              disabled={Loading}
-            >
-              {Loading ? <span className="loader">Loading</span> : "Confirm"}
-            </button>
-          </form>
+                  {/* تعديل زرار الـ Resend */}
+                  <p
+                    onClick={canResend ? Otp : null}
+                    style={{
+                      transform: "translateY(10%)",
+                      cursor: canResend ? "pointer" : "not-allowed",
+                      opacity: canResend ? 1 : 0.5, // بهتان للزرار وهو مقفول
+                    }}
+                    className="forgot-link"
+                  >
+                    {canResend ? "Resend code?" : `Resend in ${timer}s`}
+                  </p>
+                </div>
+
+                <input
+                  onChange={(e) => setCode(e.target.value)}
+                  type="text"
+                  placeholder="• • •  • • •"
+                  required
+                />
+              </div>
+
+              {handelCode && (
+                <p
+                  style={{
+                    textAlign: "left",
+                    fontSize: "10px",
+                    color: "#a80b0b",
+                    transform: "translateY(-170%)",
+                  }}
+                >
+                  - The code you entered is incorrect..
+                </p>
+              )}
+
+              <button
+                onClick={() => chick()}
+                type="button"
+                className="forgot-btn"
+                disabled={Loading}
+              >
+                {Loading ? <span className="loader">Loading</span> : "Confirm"}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

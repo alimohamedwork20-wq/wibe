@@ -3,7 +3,7 @@ import "./ResetPass.css";
 import axios from "axios";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
-
+import { AnimatePresence, motion } from "framer-motion";
 const Reset = () => {
   const [Loading, setLoading] = useState(false);
   const [Password, setPassword] = useState("");
@@ -43,61 +43,68 @@ const Reset = () => {
   }
 
   return (
-    <div className="forgot-container">
-      <div className="forgot-visualll">
-        <div className="forgot-overlay"></div>
-        <div className="forgot-visual-content">
-          <h2 className="forgot-logo">Wibe.</h2>
-          <p className="forgot-tagline">RECOVER YOUR ACCESS</p>
-        </div>
-      </div>
-
-      <div className="forgot-form-section">
-        <div className="forgot-wrapper">
-          <div className="forgot-header">
-            <h3>Enter a New Password</h3>
-            <p>The password must be strong enough</p>
+    <motion.div
+      initial={{ opacity: 0, scale: 1.1 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 1.1 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="forgot-container">
+        <div className="forgot-visualll">
+          <div className="forgot-overlay"></div>
+          <div className="forgot-visual-content">
+            <h2 className="forgot-logo">Wibe.</h2>
+            <p className="forgot-tagline">RECOVER YOUR ACCESS</p>
           </div>
+        </div>
 
-          <form
-            className="forgot-auth-form"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <div className="forgot-input-group">
-              <label>Enter a new password</label>
-              <input
-                onChange={(e) => setPassword(e.target.value)}
-                type="password"
-                placeholder="• • • • • • •"
-                required
-              />
+        <div className="forgot-form-section">
+          <div className="forgot-wrapper">
+            <div className="forgot-header">
+              <h3>Enter a New Password</h3>
+              <p>The password must be strong enough</p>
             </div>
 
-            {passwordError && (
-              <p
-                style={{
-                  textAlign: "left",
-                  fontSize: "10px",
-                  color: "#a80b0b",
-                  transform: "translateY(-170%)",
-                }}
-              >
-                - Password must be at least 8 characters.
-              </p>
-            )}
-
-            <button
-              onClick={chick}
-              type="button"
-              className="forgot-btn"
-              disabled={Loading}
+            <form
+              className="forgot-auth-form"
+              onSubmit={(e) => e.preventDefault()}
             >
-              {Loading ? <span className="loader">Loading</span> : "Confirm"}
-            </button>
-          </form>
+              <div className="forgot-input-group">
+                <label>Enter a new password</label>
+                <input
+                  onChange={(e) => setPassword(e.target.value)}
+                  type="password"
+                  placeholder="• • • • • • •"
+                  required
+                />
+              </div>
+
+              {passwordError && (
+                <p
+                  style={{
+                    textAlign: "left",
+                    fontSize: "10px",
+                    color: "#a80b0b",
+                    transform: "translateY(-170%)",
+                  }}
+                >
+                  - Password must be at least 8 characters.
+                </p>
+              )}
+
+              <button
+                onClick={chick}
+                type="button"
+                className="forgot-btn"
+                disabled={Loading}
+              >
+                {Loading ? <span className="loader">Loading</span> : "Confirm"}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
