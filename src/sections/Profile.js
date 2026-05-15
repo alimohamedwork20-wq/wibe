@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 import "../components/spinner.css";
 import "../styles/Profile.css";
 import toast from "react-hot-toast";
-
+import { useLocomotiveScroll } from "react-locomotive-scroll";
 const ProfileWrapper = styled.div`
   min-height: 100vh;
   width: 100%;
@@ -120,6 +120,9 @@ const ProfilePage = () => {
   const [newName, setNewName] = useState(Cookies.get("userName") || "User");
   const [HandelPass, setHandelPass] = useState(false);
   const [HandelPassCon, setHandelPassCon] = useState(false);
+
+  const scrollElement = document.querySelector("[data-scroll-container]");
+
   async function updateName() {
     try {
       setLoading(true);
@@ -137,7 +140,6 @@ const ProfilePage = () => {
       if (res.status === 200) {
         Cookies.set("userName", newName);
         return true;
-        setTimeout((e) => (window.location.pathname = "./home"), 2000);
       }
     } catch (error) {
       console.error("Update failed:", error.response?.data || error.message);
@@ -178,7 +180,16 @@ const ProfilePage = () => {
       setLoading(false);
     }
   }
+  const { scroll } = useLocomotiveScroll();
 
+  function scrool() {
+    if (scroll) {
+      scroll.scrollTo(0, {
+        duration: 1000,
+        disableLerp: false,
+      });
+    }
+  }
   async function selectRequest() {
     setHandelPass(false);
     setLoading(true);
@@ -194,6 +205,7 @@ const ProfilePage = () => {
         } else {
           if (await Promise.all([updateName(), updatePass()])) {
             toast.success("Modified Successfully!");
+            scrool();
           } else {
             toast.error("Failed to update. Please try again.");
           }
@@ -201,8 +213,10 @@ const ProfilePage = () => {
       } else if (isNameChanged) {
         if (await updateName()) {
           toast.success("Username has changed!");
+          scrool();
         } else {
           toast.error("Failed to update username. Please try again.");
+          scrool();
         }
       } else if (isPassChanged) {
         if (Password !== Cookies.get("pass")) {
@@ -212,8 +226,10 @@ const ProfilePage = () => {
           if (RPassword == CPassword) {
             if (await updatePass()) {
               toast.success("Password has changed!");
+              scrool();
             } else {
               toast.error("Failed to update Password. Please try again.");
+              scrool();
             }
             setHandelPassCon(false);
           } else {
@@ -222,12 +238,13 @@ const ProfilePage = () => {
         }
       } else {
         toast.error("You haven't changed any data!");
+        scrool();
         setLoading(false);
         return;
       }
     } catch (error) {
-      console.error("Selection Error:", error);
       toast.error("An error occurred, please try again.");
+      scrool();
     } finally {
       setLoading(false);
     }
